@@ -69,13 +69,13 @@ fitted <- alldata %>% #use model to fit line to dataset
     run == 'fall' ~ predict(models$fall, newdata = ., type = 'response')
   ))
 
-allyears <- final %>% #summarizing all years for graphing
+allyears <- fitted %>% #summarizing all years for graphing
   mutate(group = paste0(year,run)) %>%
   select(byDay, pred, group)
 
 fittedGraph <- ggplot() + #graph for visualizing fitted data
   geom_line(allyears, mapping = aes(x = byDay, y = pred, group = group), color = 'grey') +
-  geom_line(final, mapping = aes(x = byDay, y = pred, color = run), linewidth = 1) +
+  geom_line(fitted, mapping = aes(x = byDay, y = pred, color = run), linewidth = 1) +
   facet_wrap(~year) +
   labs(x = 'Date', y = 'Cumulative Proportion') +
   theme_bw()
